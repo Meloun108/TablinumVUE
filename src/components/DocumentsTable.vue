@@ -50,7 +50,9 @@
                           <v-text-field
                             v-model="document.number"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
-                            label="Подписной №"
+                            v-if="dialog"
+                            label="Подписной № *"
+                            autofocus
                             required
                           ></v-text-field>
                           <v-menu
@@ -564,7 +566,7 @@
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialogDelete" max-width="500px">
+              <v-dialog v-model="dialogDelete" max-width="600px">
                 <v-card>
                   <v-card-title class="headline"
                     >Вы уверены, что хотите удалить документ?</v-card-title
@@ -602,7 +604,8 @@
             <v-icon small class="mr-2" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <v-icon small @click="deleteDocument(item.id)">mdi-delete</v-icon>
+            <!--<v-icon small @click="deleteDocument(item.id)">mdi-delete</v-icon>-->
+            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
         </v-data-table>
       </v-card>
@@ -719,6 +722,7 @@ export default {
       { text: "Действия", value: "actions", sortable: false },
     ],
     editedIndex: -1,
+    deleteId: "",
     editedItem: {
       number: "",
       numberdate: "",
@@ -811,28 +815,29 @@ export default {
 
   methods: {
     saveDocument() {
+      // проверка на обязательные поля
       var data = {
         number: this.document.number,
-        numberdate: !this.numberdateform
+        numberdate: !this.newnumberdateform
           ? undefined
-          : this.parseDate(this.numberdateform),
+          : this.parseDate(this.newnumberdateform),
         numbercenter: this.document.numbercenter,
-        numbercenterdate: !this.numbercenterdateform
+        numbercenterdate: !this.newnumbercenterdateform
           ? undefined
-          : this.parseDate(this.numbercenterdateform),
+          : this.parseDate(this.newnumbercenterdateform),
         numberdepartment: this.document.numberdepartment,
-        numberdepartmentdate: !this.numberdepartmentdateform
+        numberdepartmentdate: !this.newnumberdepartmentdateform
           ? undefined
-          : this.parseDate(this.numberdepartmentdateform),
+          : this.parseDate(this.newnumberdepartmentdateform),
         numbergroup: this.document.numbergroup,
-        numbergroupdate: !this.numbergroupdateform
+        numbergroupdate: !this.newnumbergroupdateform
           ? undefined
-          : this.parseDate(this.numbergroupdateform),
+          : this.parseDate(this.newnumbergroupdateform),
         from: this.document.from,
         executor: this.document.executor,
-        executiondate: !this.executiondateform
+        executiondate: !this.newexecutiondateform
           ? undefined
-          : this.parseDate(this.executiondateform),
+          : this.parseDate(this.newexecutiondateform),
         status: this.document.status,
         view: this.document.view.state,
         speed: this.document.speed.state,
@@ -889,6 +894,7 @@ export default {
     retrieveDocuments() {
       DocumentDataService.getAll()
         .then((response) => {
+          console.log(response);
           this.documents = response.data.map(this.getDisplayDocument);
           console.log(response.data);
         })
@@ -917,6 +923,7 @@ export default {
     },*/
 
     editDocument() {
+      // проверка на обязательные поля
       var data = {
         id: this.currentDocument.id,
         number: this.currentDocument.number,
@@ -955,9 +962,12 @@ export default {
       console.log(data);
       DocumentDataService.update(this.currentDocument.id, data)
         .then((response) => {
+          this.currentDocument.view = data.view;
+          this.currentDocument.speed = data.speed;
           if (this.editedIndex > -1) {
             Object.assign(this.documents[this.editedIndex], this.currentDocument);
           } else {
+            console.log(this.currentDocument);
             this.documents.push(this.currentDocument);
           }
           this.closeEdit();
@@ -986,6 +996,7 @@ export default {
     },
 
     getDisplayDocument(document) {
+      console.log(document);
       return {
         id: document.Id,
         number: document.Number,
@@ -1006,7 +1017,7 @@ export default {
         : "б/д",
         numberdepartment: document.NumberDepartment,
         numberdepartmentdate: !(document.NumberDepartmentDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.NumberDepartmantDate.substring(
+          document.NumberDepartmentDate.substring(
             0,
             document.NumberDepartmentDate.indexOf("T")
           )
@@ -1047,20 +1058,23 @@ export default {
     },
 
     deleteItem(item) {
-      this.editedIndex = this.desserts.indexOf(item);
-      this.editedItem = Object.assign({}, item);
+      this.editedIndex = this.documents.indexOf(item);
+      this.deleteId = item.id;
+      console.log(this.editedIndex);
+      console.log(item);
+      //this.editedItem = Object.assign({}, item);
       this.dialogDelete = true;
     },
 
     deleteItemConfirm() {
-      //this.desserts.splice(this.editedIndex, 1);
-      /*DocumentDataService.delete(id)
+      this.documents.splice(this.editedIndex, 1);
+      DocumentDataService.delete(this.deleteId)
         .then(() => {
           this.refreshList();
         })
         .catch((e) => {
           console.log(e);
-      });*/
+      });
       this.closeDelete();
     },
 
