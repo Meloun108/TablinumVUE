@@ -54,7 +54,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumberdate"
+                            v-model="menunewnumberdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -64,11 +64,11 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numberdateform"
+                                v-model="newnumberdateform"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
-                                  numberdate = parseFormDate(numberdateform)
+                                  numberdate = parseFormDate(newnumberdateform)
                                 "
                                 v-on="on"
                               ></v-text-field>
@@ -77,7 +77,7 @@
                               v-model="numberdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumberdate = false"
+                              @input="menunewnumberdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -89,7 +89,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumbercenterdate"
+                            v-model="menunewnumbercenterdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -99,12 +99,12 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numbercenterdateform"
+                                v-model="newnumbercenterdateform"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
                                   numbercenterdate = parseFormDate(
-                                    numbercenterdateform
+                                    newnumbercenterdateform
                                   )
                                 "
                                 v-on="on"
@@ -114,7 +114,7 @@
                               v-model="numbercenterdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumbercenterdate = false"
+                              @input="menunewnumbercenterdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -126,7 +126,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumberdepartmentdate"
+                            v-model="menunewnumberdepartmentdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -136,12 +136,12 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numberdepartmentdateform"
+                                v-model="newnumberdepartmentdateform"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
                                   numberdepartmentdate = parseFormDate(
-                                    numberdepartmentdateform
+                                    newnumberdepartmentdateform
                                   )
                                 "
                                 v-on="on"
@@ -151,7 +151,7 @@
                               v-model="numberdepartmentdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumberdepartmentdate = false"
+                              @input="menunewnumberdepartmentdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -163,7 +163,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumbergroupdate"
+                            v-model="menunewnumbergroupdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -173,12 +173,12 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numbergroupdateform"
+                                v-model="newnumbergroupdateform"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
                                   numbergroupdate = parseFormDate(
-                                    numbergroupdateform
+                                    newnumbergroupdateform
                                   )
                                 "
                                 v-on="on"
@@ -188,7 +188,7 @@
                               v-model="numbergroupdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumbergroupdate = false"
+                              @input="menunewnumbergroupdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -211,7 +211,7 @@
                             <v-row>
                               <v-col cols="12" lg="6" style="display: contents">
                                 <v-menu
-                                  v-model="menuexecutiondate"
+                                  v-model="menunewexecutiondate"
                                   :close-on-content-click="false"
                                   :nudge-right="40"
                                   transition="scale-transition"
@@ -221,12 +221,12 @@
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
                                       label="до"
-                                      v-model="executiondateform"
+                                      v-model="newexecutiondateform"
                                       prepend-icon="mdi-calendar"
                                       v-bind="attrs"
                                       @blur="
                                         executiondate = parseFormDate(
-                                          executiondateform
+                                          newexecutiondateform
                                         )
                                       "
                                       v-on="on"
@@ -241,7 +241,7 @@
                                     v-model="executiondate"
                                     no-title
                                     locale="ru-ru"
-                                    @input="menuexecutiondate = false"
+                                    @input="menunewexecutiondate = false"
                                   ></v-date-picker>
                                 </v-menu>
                               </v-col>
@@ -317,7 +317,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumberdate"
+                            v-model="menueditnumberdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -327,20 +327,20 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numberdateform"
+                                v-model="currentDocument.numberdate"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
-                                  numberdate = parseFormDate(numberdateform)
+                                  editnumberdate = parseFormDate(currentDocument.numberdate)
                                 "
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="numberdate"
+                              v-model="editnumberdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumberdate = false"
+                              @input="menueditnumberdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -352,7 +352,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumbercenterdate"
+                            v-model="menueditnumbercenterdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -362,22 +362,22 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numbercenterdateform"
+                                v-model="currentDocument.numbercenterdate"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
-                                  numbercenterdate = parseFormDate(
-                                    numbercenterdateform
+                                  editnumbercenterdate = parseFormDate(
+                                    currentDocument.numbercenterdate
                                   )
                                 "
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="numbercenterdate"
+                              v-model="editnumbercenterdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumbercenterdate = false"
+                              @input="menueditnumbercenterdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -389,7 +389,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumberdepartmentdate"
+                            v-model="menueditnumberdepartmentdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -399,22 +399,22 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numberdepartmentdateform"
+                                v-model="currentDocument.numberdepartmentdate"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
-                                  numberdepartmentdate = parseFormDate(
-                                    numberdepartmentdateform
+                                  editnumberdepartmentdate = parseFormDate(
+                                    currentDocument.numberdepartmentdate
                                   )
                                 "
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="numberdepartmentdate"
+                              v-model="editnumberdepartmentdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumberdepartmentdate = false"
+                              @input="menueditnumberdepartmentdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -426,7 +426,7 @@
                             required
                           ></v-text-field>
                           <v-menu
-                            v-model="menunumbergroupdate"
+                            v-model="menueditnumbergroupdate"
                             :close-on-content-click="false"
                             :nudge-right="40"
                             transition="scale-transition"
@@ -436,22 +436,22 @@
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
                                 label="от"
-                                v-model="numbergroupdateform"
+                                v-model="currentDocument.numbergroupdate"
                                 prepend-icon="mdi-calendar"
                                 v-bind="attrs"
                                 @blur="
-                                  numbergroupdate = parseFormDate(
-                                    numbergroupdateform
+                                  editnumbergroupdate = parseFormDate(
+                                    currentDocument.numbergroupdate
                                   )
                                 "
                                 v-on="on"
                               ></v-text-field>
                             </template>
                             <v-date-picker
-                              v-model="numbergroupdate"
+                              v-model="editnumbergroupdate"
                               no-title
                               locale="ru-ru"
-                              @input="menunumbergroupdate = false"
+                              @input="menueditnumbergroupdate = false"
                             ></v-date-picker>
                           </v-menu>
                         </v-col>
@@ -474,7 +474,7 @@
                             <v-row>
                               <v-col cols="12" lg="6" style="display: contents">
                                 <v-menu
-                                  v-model="menuexecutiondate"
+                                  v-model="menueditexecutiondate"
                                   :close-on-content-click="false"
                                   :nudge-right="40"
                                   transition="scale-transition"
@@ -484,12 +484,12 @@
                                   <template v-slot:activator="{ on, attrs }">
                                     <v-text-field
                                       label="до"
-                                      v-model="executiondateform"
+                                      v-model="currentDocument.executiondate"
                                       prepend-icon="mdi-calendar"
                                       v-bind="attrs"
                                       @blur="
-                                        executiondate = parseFormDate(
-                                          executiondateform
+                                        editexecutiondate = parseFormDate(
+                                          currentDocument.executiondate
                                         )
                                       "
                                       v-on="on"
@@ -501,10 +501,10 @@
                                     ></v-checkbox>
                                   </template>
                                   <v-date-picker
-                                    v-model="executiondate"
+                                    v-model="editexecutiondate"
                                     no-title
                                     locale="ru-ru"
-                                    @input="menuexecutiondate = false"
+                                    @input="menueditexecutiondate = false"
                                   ></v-date-picker>
                                 </v-menu>
                               </v-col>
@@ -663,21 +663,31 @@ export default {
       updated: "",
     },
     submitted: false,
-    menunumberdate: false,
-    menunumbercenterdate: false,
-    menunumberdepartmentdate: false,
-    menunumbergroupdate: false,
-    menuexecutiondate: false,
+    menunewnumberdate: false,
+    menunewnumbercenterdate: false,
+    menunewnumberdepartmentdate: false,
+    menunewnumbergroupdate: false,
+    menunewexecutiondate: false,
+    menueditnumberdate: false,
+    menueditnumbercenterdate: false,
+    menueditnumberdepartmentdate: false,
+    menueditnumbergroupdate: false,
+    menueditexecutiondate: false,
     numberdate: "",
     numbercenterdate: "",
     numberdepartmentdate: "",
     numbergroupdate: "",
     executiondate: "",
-    numberdateform: "",
-    numbercenterdateform: "",
-    numberdepartmentdateform: "",
-    numbergroupdateform: "",
-    executiondateform: "",
+    editnumberdate: "",
+    editnumbercenterdate: "",
+    editnumberdepartmentdate: "",
+    editnumbergroupdate: "",
+    editexecutiondate: "",
+    newnumberdateform: "",
+    newnumbercenterdateform: "",
+    newnumberdepartmentdateform: "",
+    newnumbergroupdateform: "",
+    newexecutiondateform: "",
     dialog: false,
     editDialog: false,
     dialogDelete: false,
@@ -760,21 +770,38 @@ export default {
       val || this.closeDelete();
     },
     numberdate() {
-      this.numberdateform = this.formatDate(this.numberdate);
+      this.newnumberdateform = this.formatDate(this.numberdate);
+    },
+    editnumberdate() {
+      this.currentDocument.numberdate = this.formatDate(this.editnumberdate);
     },
     numbercenterdate() {
-      this.numbercenterdateform = this.formatDate(this.numbercenterdate);
+      this.newnumbercenterdateform = this.formatDate(this.numbercenterdate);
+    },
+    editnumbercenterdate() {
+      this.currentDocument.numbercenterdate = this.formatDate(this.editnumbercenterdate);
     },
     numberdepartmentdate() {
-      this.numberdepartmentdateform = this.formatDate(
+      this.newnumberdepartmentdateform = this.formatDate(
         this.numberdepartmentdate
       );
     },
+    editnumberdepartmentdate() {
+      this.currentDocument.numberdepartmentdate = this.formatDate(
+        this.editnumberdepartmentdate
+      );
+    },
     numbergroupdate() {
-      this.numbergroupdateform = this.formatDate(this.numbergroupdate);
+      this.newnumbergroupdateform = this.formatDate(this.numbergroupdate);
+    },
+    editnumbergroupdate() {
+      this.currentDocumentnumbergroupdate = this.formatDate(this.editnumbergroupdate);
     },
     executiondate() {
-      this.executiondateform = this.formatDate(this.executiondate);
+      this.newexecutiondateform = this.formatDate(this.executiondate);
+    },
+    editexecutiondate() {
+      this.currentDocument.executiondate = this.formatDate(this.editexecutiondate);
     },
   },
 
@@ -787,24 +814,24 @@ export default {
       var data = {
         number: this.document.number,
         numberdate: !this.numberdateform
-          ? this.parseFormDate("0001.01.01")
+          ? undefined
           : this.parseDate(this.numberdateform),
         numbercenter: this.document.numbercenter,
         numbercenterdate: !this.numbercenterdateform
-          ? this.parseFormDate("0001.01.01")
+          ? undefined
           : this.parseDate(this.numbercenterdateform),
         numberdepartment: this.document.numberdepartment,
         numberdepartmentdate: !this.numberdepartmentdateform
-          ? this.parseFormDate("0001.01.01")
+          ? undefined
           : this.parseDate(this.numberdepartmentdateform),
         numbergroup: this.document.numbergroup,
         numbergroupdate: !this.numbergroupdateform
-          ? this.parseFormDate("0001.01.01")
+          ? undefined
           : this.parseDate(this.numbergroupdateform),
         from: this.document.from,
         executor: this.document.executor,
         executiondate: !this.executiondateform
-          ? this.parseFormDate("0001.01.01")
+          ? undefined
           : this.parseDate(this.executiondateform),
         status: this.document.status,
         view: this.document.view.state,
@@ -893,31 +920,33 @@ export default {
       var data = {
         id: this.currentDocument.id,
         number: this.currentDocument.number,
-        numberdate: !this.numberdateform
-          ? this.parseFormDate("0001.01.01")
-          : this.parseDate(this.numberdateform),
+        numberdate: !(this.currentDocument.numberdate === "б/д") 
+        ? this.parseDate(this.currentDocument.numberdate)
+        : undefined,
         numbercenter: this.currentDocument.numbercenter,
-        numbercenterdate: !this.numbercenterdateform
-          ? this.parseFormDate("0001.01.01")
-          : this.parseDate(this.numbercenterdateform),
+        numbercenterdate: !(this.currentDocument.numbercenterdate === "б/д") 
+        ? this.parseDate(this.currentDocument.numbercenterdate)
+        : undefined,
         numberdepartment: this.currentDocument.numberdepartment,
-        numberdepartmentdate: !this.numberdepartmentdateform
-          ? this.parseFormDate("0001.01.01")
-          : this.parseDate(this.numberdepartmentdateform),
+        numberdepartmentdate: !(this.currentDocument.numberdepartmentdate === "б/д") 
+        ? this.parseDate(this.currentDocument.numberdepartmentdate)
+        : undefined,
         numbergroup: this.currentDocument.numbergroup,
-        numbergroupdate: !this.numbergroupdateform
-          ? this.parseFormDate("0001.01.01")
-          : this.parseDate(this.numbergroupdateform),
+        numbergroupdate: !(this.currentDocument.numbergroupdate === "б/д") 
+        ? this.parseDate(this.currentDocument.numbergroupdate)
+        : undefined,
         from: this.currentDocument.from,
         executor: this.currentDocument.executor,
-        executiondate: !this.executiondateform
-          ? this.parseFormDate("0001.01.01")
-          : this.parseDate(this.executiondateform),
+        executiondate: !(this.currentDocument.executiondate === "б/д") 
+        ? this.parseDate(this.currentDocument.executiondate)
+        : undefined,
         status: this.currentDocument.status,
-        view: !this.currentDocument.view
+        view: (this.currentDocument.view.state === undefined)
           ? this.currentDocument.view
           : this.currentDocument.view.state,
-        speed: this.currentDocument.speed,
+        speed: (this.currentDocument.speed.state === undefined)
+          ? this.currentDocument.speed
+          : this.currentDocument.speed.state,
         control: this.currentDocument.control,
         comment: this.currentDocument.comment,
         created: this.currentDocument.created,
@@ -960,41 +989,46 @@ export default {
       return {
         id: document.Id,
         number: document.Number,
-        numberdate: this.parseIncomingDate(
+        numberdate: !(document.NumberDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
           document.NumberDate.substring(
             0,
             document.NumberDate.indexOf("T")
           )
-        ),
+        )
+        : "б/д",
         numbercenter: document.NumberCenter,
-        numbercenterdate: this.parseIncomingDate(
+        numbercenterdate: !(document.NumberCenterDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
           document.NumberCenterDate.substring(
             0,
             document.NumberCenterDate.indexOf("T")
           )
-        ),
+        )
+        : "б/д",
         numberdepartment: document.NumberDepartment,
-        numberdepartmentdate: this.parseIncomingDate(
-          document.NumberDepartmentDate.substring(
+        numberdepartmentdate: !(document.NumberDepartmentDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
+          document.NumberDepartmantDate.substring(
             0,
             document.NumberDepartmentDate.indexOf("T")
           )
-        ),
+        )
+        : "б/д",
         numbergroup: document.NumberGroup,
-        numbergroupdate: this.parseIncomingDate(
+        numbergroupdate: !(document.NumberGroupDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
           document.NumberGroupDate.substring(
             0,
             document.NumberGroupDate.indexOf("T")
           )
-        ),
+        )
+        : "б/д",
         from: document.From,
         executor: document.Executor,
-        executiondate: this.parseIncomingDate(
+        executiondate: !(document.ExecutionDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
           document.ExecutionDate.substring(
             0,
             document.ExecutionDate.indexOf("T")
           )
-        ),
+        )
+        : "б/д",
         status: document.Status,
         view: document.View,
         speed: document.Speed,
@@ -1008,6 +1042,7 @@ export default {
     editItem(item) {
       this.editedIndex = this.documents.indexOf(item);
       this.currentDocument = Object.assign({}, item);
+      console.log(item);
       this.editDialog = true;
     },
 
