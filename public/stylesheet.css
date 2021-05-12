@@ -1,0 +1,10 @@
+@font-face {
+    font-family: 'Grusskarten Gotisch';
+    /*src: url('GrusskartenGotisch.woff2') format('woff2'),
+        url('GrusskartenGotisch.woff') format('woff');*/
+    src: url('tablinum.woff2') format('woff2'),
+         url('tablinum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
