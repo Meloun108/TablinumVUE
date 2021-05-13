@@ -52,6 +52,7 @@
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             v-if="dialog"
                             label="Подписной № *"
+                            autocomplete="off"
                             autofocus
                             required
                           ></v-text-field>
@@ -65,9 +66,11 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                label="от"
+                                label="от *"
                                 v-model="newnumberdateform"
+                                :rules="[(v) => !!v || 'Поле не заполнено!']"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   numberdate = parseFormDate(newnumberdateform)
@@ -88,6 +91,7 @@
                             v-model="document.numbercenter"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. Центра"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -103,6 +107,7 @@
                                 label="от"
                                 v-model="newnumbercenterdateform"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   numbercenterdate = parseFormDate(
@@ -125,6 +130,7 @@
                             v-model="document.numberdepartment"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. Управления"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -140,6 +146,7 @@
                                 label="от"
                                 v-model="newnumberdepartmentdateform"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   numberdepartmentdate = parseFormDate(
@@ -162,6 +169,7 @@
                             v-model="document.numbergroup"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. подразд."
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -177,6 +185,7 @@
                                 label="от"
                                 v-model="newnumbergroupdateform"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   numbergroupdate = parseFormDate(
@@ -199,6 +208,7 @@
                             v-model="document.from"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Инициатор"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                         </v-col>
@@ -207,6 +217,7 @@
                             v-model="document.executor"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Исполнитель"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-container>
@@ -225,6 +236,7 @@
                                       label="до"
                                       v-model="newexecutiondateform"
                                       prepend-icon="mdi-calendar"
+                                      autocomplete="off"
                                       v-bind="attrs"
                                       @blur="
                                         executiondate = parseFormDate(
@@ -285,6 +297,7 @@
                               v-model="document.comment"
                               :rules="[(v) => !!v || 'Поле не заполнено!']"
                               label="Комментарий"
+                              autocomplete="off"
                               required
                             ></v-text-field>
                           </div>
@@ -315,7 +328,8 @@
                           <v-text-field
                             v-model="currentDocument.number"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
-                            label="Подписной №"
+                            label="Подписной № *"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -328,12 +342,16 @@
                           >
                             <template v-slot:activator="{ on, attrs }">
                               <v-text-field
-                                label="от"
+                                label="от *"
                                 v-model="currentDocument.numberdate"
+                                :rules="[(v) => !!v || 'Поле не заполнено!']"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
-                                  editnumberdate = parseFormDate(currentDocument.numberdate)
+                                  editnumberdate = parseFormDate(
+                                    currentDocument.numberdate
+                                  )
                                 "
                                 v-on="on"
                               ></v-text-field>
@@ -351,6 +369,7 @@
                             v-model="currentDocument.numbercenter"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. Центра"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -366,6 +385,7 @@
                                 label="от"
                                 v-model="currentDocument.numbercenterdate"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   editnumbercenterdate = parseFormDate(
@@ -388,6 +408,7 @@
                             v-model="currentDocument.numberdepartment"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. Управления"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -403,6 +424,7 @@
                                 label="от"
                                 v-model="currentDocument.numberdepartmentdate"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   editnumberdepartmentdate = parseFormDate(
@@ -425,6 +447,7 @@
                             v-model="currentDocument.numbergroup"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. подразд."
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-menu
@@ -440,6 +463,7 @@
                                 label="от"
                                 v-model="currentDocument.numbergroupdate"
                                 prepend-icon="mdi-calendar"
+                                autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
                                   editnumbergroupdate = parseFormDate(
@@ -462,6 +486,7 @@
                             v-model="currentDocument.from"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Инициатор"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                         </v-col>
@@ -470,6 +495,7 @@
                             v-model="currentDocument.executor"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Исполнитель"
+                            autocomplete="off"
                             required
                           ></v-text-field>
                           <v-container>
@@ -488,6 +514,7 @@
                                       label="до"
                                       v-model="currentDocument.executiondate"
                                       prepend-icon="mdi-calendar"
+                                      autocomplete="off"
                                       v-bind="attrs"
                                       @blur="
                                         editexecutiondate = parseFormDate(
@@ -548,6 +575,7 @@
                               v-model="currentDocument.comment"
                               :rules="[(v) => !!v || 'Поле не заполнено!']"
                               label="Комментарий"
+                              autocomplete="off"
                               required
                             ></v-text-field>
                           </div>
@@ -761,7 +789,7 @@ export default {
     },
   }),
 
-  computed: { },
+  computed: {},
 
   watch: {
     dialog(val) {
@@ -783,7 +811,9 @@ export default {
       this.newnumbercenterdateform = this.formatDate(this.numbercenterdate);
     },
     editnumbercenterdate() {
-      this.currentDocument.numbercenterdate = this.formatDate(this.editnumbercenterdate);
+      this.currentDocument.numbercenterdate = this.formatDate(
+        this.editnumbercenterdate
+      );
     },
     numberdepartmentdate() {
       this.newnumberdepartmentdateform = this.formatDate(
@@ -799,13 +829,17 @@ export default {
       this.newnumbergroupdateform = this.formatDate(this.numbergroupdate);
     },
     editnumbergroupdate() {
-      this.currentDocumentnumbergroupdate = this.formatDate(this.editnumbergroupdate);
+      this.currentDocumentnumbergroupdate = this.formatDate(
+        this.editnumbergroupdate
+      );
     },
     executiondate() {
       this.newexecutiondateform = this.formatDate(this.executiondate);
     },
     editexecutiondate() {
-      this.currentDocument.executiondate = this.formatDate(this.editexecutiondate);
+      this.currentDocument.executiondate = this.formatDate(
+        this.editexecutiondate
+      );
     },
   },
 
@@ -815,54 +849,57 @@ export default {
 
   methods: {
     saveDocument() {
-      // проверка на обязательные поля
-      var data = {
-        number: this.document.number,
-        numberdate: !this.newnumberdateform
-          ? undefined
-          : this.parseDate(this.newnumberdateform),
-        numbercenter: this.document.numbercenter,
-        numbercenterdate: !this.newnumbercenterdateform
-          ? undefined
-          : this.parseDate(this.newnumbercenterdateform),
-        numberdepartment: this.document.numberdepartment,
-        numberdepartmentdate: !this.newnumberdepartmentdateform
-          ? undefined
-          : this.parseDate(this.newnumberdepartmentdateform),
-        numbergroup: this.document.numbergroup,
-        numbergroupdate: !this.newnumbergroupdateform
-          ? undefined
-          : this.parseDate(this.newnumbergroupdateform),
-        from: this.document.from,
-        executor: this.document.executor,
-        executiondate: !this.newexecutiondateform
-          ? undefined
-          : this.parseDate(this.newexecutiondateform),
-        status: this.document.status,
-        view: this.document.view.state,
-        speed: this.document.speed.state,
-        control: this.document.control,
-        comment: this.document.comment,
-        created: new Date(),
-        updated: new Date(),
-      };
-
-      DocumentDataService.create(data)
-        .then((response) => {
-          this.document.id = response.data.Id;
-          console.log(response.data);
-          this.submitted = true;
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      if (this.editedIndex > -1) {
-        Object.assign(this.documents[this.editedIndex], this.editedItem);
+      if (this.document.number === "" || !this.newnumberdateform) {
+        this.$toastr.e("", "Не заполнены обязательные поля!");
       } else {
-      this.documents.push(this.document);
+        var data = {
+          number: this.document.number,
+          numberdate: !this.newnumberdateform
+            ? undefined
+            : this.parseDate(this.newnumberdateform),
+          numbercenter: this.document.numbercenter,
+          numbercenterdate: !this.newnumbercenterdateform
+            ? undefined
+            : this.parseDate(this.newnumbercenterdateform),
+          numberdepartment: this.document.numberdepartment,
+          numberdepartmentdate: !this.newnumberdepartmentdateform
+            ? undefined
+            : this.parseDate(this.newnumberdepartmentdateform),
+          numbergroup: this.document.numbergroup,
+          numbergroupdate: !this.newnumbergroupdateform
+            ? undefined
+            : this.parseDate(this.newnumbergroupdateform),
+          from: this.document.from,
+          executor: this.document.executor,
+          executiondate: !this.newexecutiondateform
+            ? undefined
+            : this.parseDate(this.newexecutiondateform),
+          status: this.document.status,
+          view: this.document.view.state,
+          speed: this.document.speed.state,
+          control: this.document.control,
+          comment: this.document.comment,
+          created: new Date(),
+          updated: new Date(),
+        };
+
+        DocumentDataService.create(data)
+          .then((response) => {
+            this.document.id = response.data.Id;
+            console.log(response.data);
+            this.submitted = true;
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        if (this.editedIndex > -1) {
+          Object.assign(this.documents[this.editedIndex], this.editedItem);
+        } else {
+          this.documents.push(this.document);
+        }
+        this.refreshList();
+        this.close();
       }
-      this.refreshList();
-      this.close();
     },
 
     formatDate(date) {
@@ -923,61 +960,71 @@ export default {
     },*/
 
     editDocument() {
-      // проверка на обязательные поля
-      var data = {
-        id: this.currentDocument.id,
-        number: this.currentDocument.number,
-        numberdate: !(this.currentDocument.numberdate === "б/д") 
-        ? this.parseDate(this.currentDocument.numberdate)
-        : undefined,
-        numbercenter: this.currentDocument.numbercenter,
-        numbercenterdate: !(this.currentDocument.numbercenterdate === "б/д") 
-        ? this.parseDate(this.currentDocument.numbercenterdate)
-        : undefined,
-        numberdepartment: this.currentDocument.numberdepartment,
-        numberdepartmentdate: !(this.currentDocument.numberdepartmentdate === "б/д") 
-        ? this.parseDate(this.currentDocument.numberdepartmentdate)
-        : undefined,
-        numbergroup: this.currentDocument.numbergroup,
-        numbergroupdate: !(this.currentDocument.numbergroupdate === "б/д") 
-        ? this.parseDate(this.currentDocument.numbergroupdate)
-        : undefined,
-        from: this.currentDocument.from,
-        executor: this.currentDocument.executor,
-        executiondate: !(this.currentDocument.executiondate === "б/д") 
-        ? this.parseDate(this.currentDocument.executiondate)
-        : undefined,
-        status: this.currentDocument.status,
-        view: (this.currentDocument.view.state === undefined)
-          ? this.currentDocument.view
-          : this.currentDocument.view.state,
-        speed: (this.currentDocument.speed.state === undefined)
-          ? this.currentDocument.speed
-          : this.currentDocument.speed.state,
-        control: this.currentDocument.control,
-        comment: this.currentDocument.comment,
-        created: this.currentDocument.created,
-        updated: new Date(),
-      };
-      console.log(data);
-      DocumentDataService.update(this.currentDocument.id, data)
-        .then((response) => {
-          this.currentDocument.view = data.view;
-          this.currentDocument.speed = data.speed;
-          if (this.editedIndex > -1) {
-            Object.assign(this.documents[this.editedIndex], this.currentDocument);
-          } else {
-            console.log(this.currentDocument);
-            this.documents.push(this.currentDocument);
-          }
-          this.closeEdit();
-          console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-      //this.refreshList();
-      //this.closeEdit();
+      if (this.currentDocument.number === "" || !this.currentDocument.numberdate) {
+        this.$toastr.e("", "Не заполнены обязательные поля!");
+      } else {
+        var data = {
+          id: this.currentDocument.id,
+          number: this.currentDocument.number,
+          numberdate: !(this.currentDocument.numberdate === "б/д")
+            ? this.parseDate(this.currentDocument.numberdate)
+            : undefined,
+          numbercenter: this.currentDocument.numbercenter,
+          numbercenterdate: !(this.currentDocument.numbercenterdate === "б/д")
+            ? this.parseDate(this.currentDocument.numbercenterdate)
+            : undefined,
+          numberdepartment: this.currentDocument.numberdepartment,
+          numberdepartmentdate: !(
+            this.currentDocument.numberdepartmentdate === "б/д"
+          )
+            ? this.parseDate(this.currentDocument.numberdepartmentdate)
+            : undefined,
+          numbergroup: this.currentDocument.numbergroup,
+          numbergroupdate: !(this.currentDocument.numbergroupdate === "б/д")
+            ? this.parseDate(this.currentDocument.numbergroupdate)
+            : undefined,
+          from: this.currentDocument.from,
+          executor: this.currentDocument.executor,
+          executiondate: !(this.currentDocument.executiondate === "б/д")
+            ? this.parseDate(this.currentDocument.executiondate)
+            : undefined,
+          status: this.currentDocument.status,
+          view:
+            this.currentDocument.view.state === undefined
+              ? this.currentDocument.view
+              : this.currentDocument.view.state,
+          speed:
+            this.currentDocument.speed.state === undefined
+              ? this.currentDocument.speed
+              : this.currentDocument.speed.state,
+          control: this.currentDocument.control,
+          comment: this.currentDocument.comment,
+          created: this.currentDocument.created,
+          updated: new Date(),
+        };
+        console.log(data);
+        DocumentDataService.update(this.currentDocument.id, data)
+          .then((response) => {
+            this.currentDocument.view = data.view;
+            this.currentDocument.speed = data.speed;
+            if (this.editedIndex > -1) {
+              Object.assign(
+                this.documents[this.editedIndex],
+                this.currentDocument
+              );
+            } else {
+              console.log(this.currentDocument);
+              this.documents.push(this.currentDocument);
+            }
+            this.closeEdit();
+            console.log(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+        //this.refreshList();
+        //this.closeEdit();
+      }
     },
 
     changeLocation(id) {
@@ -1000,46 +1047,52 @@ export default {
       return {
         id: document.Id,
         number: document.Number,
-        numberdate: !(document.NumberDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.NumberDate.substring(
-            0,
-            document.NumberDate.indexOf("T")
-          )
-        )
-        : "б/д",
+        numberdate: !(document.NumberDate === "0001-01-01T00:00:00Z")
+          ? this.parseIncomingDate(
+              document.NumberDate.substring(0, document.NumberDate.indexOf("T"))
+            )
+          : "б/д",
         numbercenter: document.NumberCenter,
-        numbercenterdate: !(document.NumberCenterDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.NumberCenterDate.substring(
-            0,
-            document.NumberCenterDate.indexOf("T")
-          )
+        numbercenterdate: !(
+          document.NumberCenterDate === "0001-01-01T00:00:00Z"
         )
-        : "б/д",
+          ? this.parseIncomingDate(
+              document.NumberCenterDate.substring(
+                0,
+                document.NumberCenterDate.indexOf("T")
+              )
+            )
+          : "б/д",
         numberdepartment: document.NumberDepartment,
-        numberdepartmentdate: !(document.NumberDepartmentDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.NumberDepartmentDate.substring(
-            0,
-            document.NumberDepartmentDate.indexOf("T")
-          )
+        numberdepartmentdate: !(
+          document.NumberDepartmentDate === "0001-01-01T00:00:00Z"
         )
-        : "б/д",
+          ? this.parseIncomingDate(
+              document.NumberDepartmentDate.substring(
+                0,
+                document.NumberDepartmentDate.indexOf("T")
+              )
+            )
+          : "б/д",
         numbergroup: document.NumberGroup,
-        numbergroupdate: !(document.NumberGroupDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.NumberGroupDate.substring(
-            0,
-            document.NumberGroupDate.indexOf("T")
-          )
-        )
-        : "б/д",
+        numbergroupdate: !(document.NumberGroupDate === "0001-01-01T00:00:00Z")
+          ? this.parseIncomingDate(
+              document.NumberGroupDate.substring(
+                0,
+                document.NumberGroupDate.indexOf("T")
+              )
+            )
+          : "б/д",
         from: document.From,
         executor: document.Executor,
-        executiondate: !(document.ExecutionDate === "0001-01-01T00:00:00Z") ? this.parseIncomingDate(
-          document.ExecutionDate.substring(
-            0,
-            document.ExecutionDate.indexOf("T")
-          )
-        )
-        : "б/д",
+        executiondate: !(document.ExecutionDate === "0001-01-01T00:00:00Z")
+          ? this.parseIncomingDate(
+              document.ExecutionDate.substring(
+                0,
+                document.ExecutionDate.indexOf("T")
+              )
+            )
+          : "б/д",
         status: document.Status,
         view: document.View,
         speed: document.Speed,
@@ -1074,7 +1127,7 @@ export default {
         })
         .catch((e) => {
           console.log(e);
-      });
+        });
       this.closeDelete();
     },
 

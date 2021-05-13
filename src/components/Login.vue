@@ -7,6 +7,7 @@
               :rules="[(v) => !!v || 'Поле не заполнено!']"
               label="Логин"
               style="max-width: 250px; margin-left: auto !important; margin-right: auto !important"
+              autocomplete="off"
               required
             ></v-text-field>
      <v-text-field
@@ -18,6 +19,7 @@
               :type="show1 ? 'text' : 'password'"
               counter
               @click:append="show1 = !show1"
+              autocomplete="off"
               required
             ></v-text-field>
      <v-card-actions>

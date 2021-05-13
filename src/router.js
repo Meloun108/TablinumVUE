@@ -19,22 +19,6 @@ let router = new Router({
       }
     },
     {
-      path: "/documents/:id",
-      name: "document-details",
-      component: () => import("./components/EditDocument"),
-      meta: { 
-        requiresAuth: true
-      }
-    },
-    {
-      path: "/add",
-      name: "add",
-      component: () => import("./components/AddDocument"),
-      meta: { 
-        requiresAuth: true
-      }
-    },
-    {
       path: '/login',
       name: 'login',
       component: Login
