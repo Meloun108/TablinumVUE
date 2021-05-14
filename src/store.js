@@ -31,8 +31,8 @@ export default new Vuex.Store({
     login({commit}, user){
         return new Promise((resolve, reject) => {
           commit('auth_request')
-          //axios({url: 'https://localhost:5001/token', data: user, method: 'POST' })
-          axios({url: 'https://localhost:5001/token?username=' + user.username + "&password=" + user.password, method: 'POST' }) // fix! check to secure request!!
+          axios({url: 'https://localhost:5001/token', data: user, method: 'POST' })
+          //axios({url: 'https://localhost:5001/token?username=' + user.username + "&password=" + user.password, method: 'POST' }) // fix! check to secure request!!
           .then(resp => {
             const token = resp.data.access_token
             const user = resp.data.username
@@ -49,7 +49,6 @@ export default new Vuex.Store({
         })
     },
     register({commit}, user){
-        console.log(user);
         return new Promise((resolve, reject) => {
           commit('auth_request')
           axios({url: 'https://localhost:5001/register', data: user, method: 'POST' })
