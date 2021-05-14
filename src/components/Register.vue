@@ -1,5 +1,7 @@
 <template>
   <div>
+    <!-- Добавить поля группа и роль с выгрузкой из БД -->
+    <!-- Регистрировать пользователя с ObjectId группы и роли -->
     <form class="login" @submit.prevent="register">
       <h1 style="text-align: center; margin-top: 100px">
         Регистрация пользователя
