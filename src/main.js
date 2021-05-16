@@ -15,8 +15,12 @@ Vue.use(Vuex)
 Vue.config.productionTip = false
 //Vue.prototype.$http = axios;
 const token = localStorage.getItem('token')
+const user = localStorage.getItem('user')
 if (token) {
   Vue.prototype.$http.defaults.headers.common['Authorization'] = token
+}
+if (user) {
+  Vue.prototype.$http.defaults.headers.common['Authorization'] = user
 }
 
 new Vue({

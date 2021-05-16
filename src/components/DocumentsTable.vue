@@ -165,7 +165,7 @@
                           </v-menu>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
+                          <!--<v-text-field
                             v-model="document.numbergroup"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="вх. подразд."
@@ -201,25 +201,45 @@
                               locale="ru-ru"
                               @input="menunewnumbergroupdate = false"
                             ></v-date-picker>
-                          </v-menu>
+                          </v-menu>-->
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
+                          <!--<v-text-field                          
                             v-model="document.from"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Инициатор"
                             autocomplete="off"
                             required
-                          ></v-text-field>
+                          ></v-text-field>-->
+                          <v-autocomplete
+                            v-model="document.from"
+                            :items="initios"
+                            :filter="customFilterInitio"
+                            color="white"
+                            item-text="initio"
+                            item-value="id"
+                            label="Инициатор"
+                            required
+                          ></v-autocomplete>
                         </v-col>
                         <v-col cols="12" sm="6" md="4">
-                          <v-text-field
+                          <!--<v-text-field
                             v-model="document.executor"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Исполнитель"
                             autocomplete="off"
                             required
-                          ></v-text-field>
+                          ></v-text-field>-->
+                          <v-autocomplete
+                            v-model="document.executor"
+                            :items="executors"
+                            :filter="customFilterUser"
+                            color="white"
+                            item-text="name"
+                            item-value="id"
+                            label="Исполнитель"
+                            required
+                          ></v-autocomplete>
                           <v-container>
                             <v-row>
                               <v-col cols="12" lg="6" style="display: contents">
@@ -632,7 +652,6 @@
             <v-icon small class="mr-2" @click="editItem(item)"
               >mdi-pencil</v-icon
             >
-            <!--<v-icon small @click="deleteDocument(item.id)">mdi-delete</v-icon>-->
             <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
           </template>
         </v-data-table>
@@ -643,6 +662,8 @@
 
 <script>
 import DocumentDataService from "../services/DocumentDataService";
+import InitioDataService from "../services/InitioDataService";
+import UserDataService from "../services/UserDatatService";
 export default {
   data: () => ({
     itemsViewDoc: [
@@ -659,10 +680,24 @@ export default {
       numbercenterdate: "",
       numberdepartment: "",
       numberdepartmentdate: "",
-      numbergroup: "",
-      numbergroupdate: "",
-      from: "",
-      executor: "",
+      groupinfo: [
+        {
+          group: "",
+          numbergroup: "",
+          numbergroupdate: "",
+          location: true,
+        }
+      ],
+      //numbergroup: "",
+      //numbergroupdate: "",
+      from: {
+        id: null,
+        initio: "",
+      },
+      executor: {
+        id: null,
+        name: "",
+      },
       executiondate: "",
       status: false,
       view: { state: "Запрос" },
@@ -725,6 +760,9 @@ export default {
     search: "",
     loadProgress: false,
     documents: [],
+    initios: [],
+    executors: [],
+    usergroup: "",
     headers: [
       {
         text: "Подп. №",
@@ -737,8 +775,8 @@ export default {
       { text: "от", value: "numbercenterdate" },
       { text: "вх. Упр.", value: "numberdepartment" },
       { text: "от", value: "numberdepartmentdate" },
-      { text: "вх. Отд.", value: "numbergroup" },
-      { text: "от", value: "numbergroupdate" },
+      //{ text: "вх. Отд.", value: "numbergroup" },
+      //{ text: "от", value: "numbergroupdate" },
       { text: "Инициатор", value: "from" },
       { text: "Исп-тель", value: "executor" },
       { text: "до", value: "executiondate" },
@@ -848,7 +886,20 @@ export default {
   },
 
   methods: {
+    customFilterInitio (item, queryText) {
+      const textOne = item.initio.toLowerCase();
+      const searchText = queryText.toLowerCase();
+      return textOne.indexOf(searchText) > -1;
+    },
+
+    customFilterUser (item, queryText) {
+      const textOne = item.name.toLowerCase();
+      const searchText = queryText.toLowerCase();
+      return textOne.indexOf(searchText) > -1;
+    },
+
     saveDocument() {
+      console.log(this.document);
       if (this.document.number === "" || !this.newnumberdateform) {
         this.$toastr.e("", "Не заполнены обязательные поля!");
       } else {
@@ -865,10 +916,18 @@ export default {
           numberdepartmentdate: !this.newnumberdepartmentdateform
             ? undefined
             : this.parseDate(this.newnumberdepartmentdateform),
-          numbergroup: this.document.numbergroup,
-          numbergroupdate: !this.newnumbergroupdateform
-            ? undefined
-            : this.parseDate(this.newnumbergroupdateform),
+          //numbergroup: this.document.numbergroup,
+          //numbergroupdate: !this.newnumbergroupdateform
+          //  ? undefined
+          //  : this.parseDate(this.newnumbergroupdateform),
+          groupinfo: [
+            {
+              group: this.usergroup,
+              numbergroup: "",
+              numbergroupdate: new Date(),
+              location: true,
+            }
+          ],
           from: this.document.from,
           executor: this.document.executor,
           executiondate: !this.newexecutiondateform
@@ -929,15 +988,67 @@ export default {
     },
 
     retrieveDocuments() {
-      DocumentDataService.getAll()
+        /*DocumentDataService.getAll()
+          .then((response) => {
+            console.log(response);
+            this.documents = response.data.map(this.getDisplayDocument);
+            console.log(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+        });*/
+        InitioDataService.getAll()
         .then((response) => {
           console.log(response);
-          this.documents = response.data.map(this.getDisplayDocument);
+          this.initios = response.data.map(this.getSelectInitio);
           console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
         });
+        UserDataService.getAll()
+        .then((response) => {
+          console.log(response);
+          this.executors = response.data.map(this.getSelectUser);
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        UserDataService.findByUser(localStorage.user)
+        .then((response) => {
+          console.log(response);
+          this.usergroup = response.data.Group;
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        DocumentDataService.getAll()
+          .then((response) => {
+            console.log(response);
+            this.documents = response.data.map(this.getDisplayDocument);
+            console.log(response.data);
+          })
+          .catch((e) => {
+            console.log(e);
+        });
+    },
+
+    getSelectInitio(initio) {
+      console.log(initio);
+      return {
+        id: initio.Id,
+        initio: initio.Initio,
+      }
+    },
+
+    getSelectUser(user) {
+      console.log(user);
+      return {
+        id: user.Id,
+        name: user.Name,
+      }
     },
 
     refreshList() {
@@ -1074,17 +1185,19 @@ export default {
               )
             )
           : "б/д",
-        numbergroup: document.NumberGroup,
-        numbergroupdate: !(document.NumberGroupDate === "0001-01-01T00:00:00Z")
-          ? this.parseIncomingDate(
-              document.NumberGroupDate.substring(
-                0,
-                document.NumberGroupDate.indexOf("T")
-              )
-            )
-          : "б/д",
-        from: document.From,
-        executor: document.Executor,
+        //numbergroup: document.NumberGroup,
+        //numbergroupdate: !(document.NumberGroupDate === "0001-01-01T00:00:00Z")
+        //  ? this.parseIncomingDate(
+        //      document.NumberGroupDate.substring(
+        //        0,
+        //        document.NumberGroupDate.indexOf("T")
+        //      )
+        //    )
+        //  : "б/д",
+        //from: document.From,
+        from: this.getFrom(document.From),
+        //executor: document.Executor,
+        executor: this.getExec(document.Executor),
         executiondate: !(document.ExecutionDate === "0001-01-01T00:00:00Z")
           ? this.parseIncomingDate(
               document.ExecutionDate.substring(
@@ -1153,6 +1266,16 @@ export default {
         this.document = Object.assign({}, this.defaultItem);
         this.editedIndex = -1;
       });
+    },
+
+    getFrom(inn) {
+      let ini = this.initios.find(item => item.id == inn);
+      return ini.initio;
+    },
+
+    getExec(exec) {
+      let ex = this.executors.find(item => item.id == exec);
+      return ex.name;
     },
 
     parseIncomingDate(input) {

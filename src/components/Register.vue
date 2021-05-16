@@ -1,6 +1,5 @@
 <template>
   <div>
-    <!-- Добавить поля группа и роль с выгрузкой из БД -->
     <!-- Регистрировать пользователя с ObjectId группы и роли -->
     <form class="login" @submit.prevent="register">
       <h1 style="text-align: center; margin-top: 100px">
@@ -51,18 +50,6 @@
         required
       ></v-text-field>
       <v-text-field
-        v-model="group"
-        :rules="[(v) => !!v || 'Поле не заполнено!']"
-        label="Подразделение"
-        style="
-          max-width: 250px;
-          margin-left: auto !important;
-          margin-right: auto !important;
-        "
-        autocomplete="off"
-        required
-      ></v-text-field>
-      <v-text-field
         v-model="name"
         :rules="[(v) => !!v || 'Поле не заполнено!']"
         label="ФИО"
@@ -74,6 +61,38 @@
         autocomplete="off"
         required
       ></v-text-field>
+      <v-select
+        v-model="group"
+        :hint="`Группа`"
+        :items="groups"
+        item-text="dept"
+        item-value="id"
+        persistent-hint
+        return-object
+        single-line
+        required
+        style="
+          max-width: 250px;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        "
+      ></v-select>
+      <v-select
+        v-model="role"
+        :hint="`Роль`"
+        :items="roles"
+        item-text="rolename"
+        item-value="id"
+        persistent-hint
+        return-object
+        single-line
+        required
+        style="
+          max-width: 250px;
+          margin-left: auto !important;
+          margin-right: auto !important;
+        "
+      ></v-select>
       <v-card-actions>
         <v-btn
           color="success"
@@ -87,12 +106,23 @@
 </template>
 
 <script>
+import GroupDataService from "../services/GroupDataService"
+import RoleDataService from "../services/RoleDataService"
 export default {
   data() {
     return {
+      group: {
+        id: null,
+        dept: "",
+      },
+      role: {
+        id: null,
+        rolename: "",
+      },
       login: "",
       name: "",
-      group: "",
+      groups: [],
+      roles: [],
       password: "",
       confirmPassword: "",
       show1: false,
@@ -105,6 +135,11 @@ export default {
       confirmPasswordRules: [(v) => !!v || "Поле не заполнено!"],
     };
   },
+
+  mounted() {
+    this.retrieveData();
+  },
+
   methods: {
     register: function () {
       if (
@@ -112,6 +147,7 @@ export default {
         this.password === "" ||
         this.password !== this.confirmPassword ||
         this.group === "" ||
+        this.role === "" ||
         this.name === "" ||
         this.password.length < 5
       ) {
@@ -120,7 +156,8 @@ export default {
         let data = {
           login: this.login,
           name: this.name,
-          group: this.group,
+          group: this.group.id,
+          role: this.role.id,
           password: this.password,
         };
         console.log(data);
@@ -128,6 +165,43 @@ export default {
           .dispatch("register", data)
           .then(() => this.$router.push("/"))
           .catch((err) => console.log(err));
+      }
+    },
+
+    retrieveData() {
+      GroupDataService.getAll()
+        .then((response) => {
+          console.log(response);
+          this.groups = response.data.map(this.getSelectGroup);
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+        RoleDataService.getAll()
+        .then((response) => {
+          console.log(response);
+          this.roles = response.data.map(this.getSelectRole);
+          console.log(response.data);
+        })
+        .catch((e) => {
+          console.log(e);
+        });
+    },
+
+    getSelectGroup(group) {
+      console.log(group);
+      return {
+        id: group.Id,
+        dept: group.Dept,
+      }
+    }, 
+
+    getSelectRole(role) {
+      console.log(role);
+      return {
+        id: role.Id,
+        rolename: role.RoleName,
       }
     },
   },

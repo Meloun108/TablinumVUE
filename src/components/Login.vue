@@ -58,10 +58,10 @@ export default {
   },
   methods: {
     login: function () {
-      let username = this.username;
+      let login = this.username;
       let password = this.password;
       this.$store
-        .dispatch("login", { username, password })
+        .dispatch("login", { login, password })
         .then(() => this.$router.push("/"))
         .catch(
           (err) => (
