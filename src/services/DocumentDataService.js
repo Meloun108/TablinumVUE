@@ -25,8 +25,8 @@ class DocumentDataService {
     return http.delete(`/documents`);
   }
 
-  findByNumber(number) {
-    return http.get(`/documents?number=${number}`);
+  findByUserGroup(group) {
+    return http.get(`/documents/group/${group}`);
   }
 }
 

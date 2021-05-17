@@ -1020,11 +1020,8 @@ export default {
           console.log(response);
           this.usergroup = response.data.Group;
           console.log(response.data);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
-        DocumentDataService.getAll()
+          console.log(this.usergroup);
+          DocumentDataService.findByUserGroup(this.usergroup)
           .then((response) => {
             console.log(response);
             this.documents = response.data.map(this.getDisplayDocument);
@@ -1032,6 +1029,10 @@ export default {
           })
           .catch((e) => {
             console.log(e);
+          });
+        })
+        .catch((e) => {
+          console.log(e);
         });
     },
 
