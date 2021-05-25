@@ -1,32 +1,32 @@
 import http from "../http-common";
 
 class InitioDataService {
-  getAll() {
-    return http.get("/initios");
+  getAll(tok) {
+    return http.get("/initios", { headers: { Authorization: tok } });
   }
 
-  get(id) {
-    return http.get(`/initios/${id}`);
+  get(id, tok) {
+    return http.get(`/initios/${id}`, { headers: { Authorization: tok } });
   }
 
-  create(data) {
-    return http.post("/initios", data);
+  create(data, tok) {
+    return http.post("/initios", data, { headers: { Authorization: tok } });
   }
 
-  update(id, data) {
-    return http.put(`/initios/${id}`, data);
+  update(id, data, tok) {
+    return http.put(`/initios/${id}`, data, { headers: { Authorization: tok } });
   }
 
-  delete(id) {
-    return http.delete(`/initios/${id}`);
+  delete(id, tok) {
+    return http.delete(`/initios/${id}`, { headers: { Authorization: tok } });
   }
 
-  deleteAll() {
-    return http.delete(`/initios`);
+  deleteAll(tok) {
+    return http.delete(`/initios`, { headers: { Authorization: tok } });
   }
 
-  findByInitio(initio) {
-    return http.get(`/initios?initio=${initio}`);
+  findByInitio(initio, tok) {
+    return http.get(`/initios/initio/${initio}`, { headers: { Authorization: tok } });
   }
 }
 

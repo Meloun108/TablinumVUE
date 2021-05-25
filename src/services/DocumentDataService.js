@@ -1,32 +1,32 @@
 import http from "../http-common";
 
 class DocumentDataService {
-  getAll() {
-    return http.get("/documents");
+  getAll(tok) {
+    return http.get("/documents", { headers: { Authorization: tok } });
   }
 
-  get(id) {
-    return http.get(`/documents/${id}`);
+  get(id, tok) {
+    return http.get(`/documents/${id}`, { headers: { Authorization: tok } });
   }
 
-  create(data) {
-    return http.post("/documents", data);
+  create(data, tok) {
+    return http.post("/documents", data, { headers: { Authorization: tok } });
   }
 
-  update(id, data) {
-    return http.put(`/documents/${id}`, data);
+  update(id, data, tok) {
+    return http.put(`/documents/${id}`, data, { headers: { Authorization: tok } });
   }
 
-  delete(id) {
-    return http.delete(`/documents/${id}`);
+  delete(id, tok) {
+    return http.delete(`/documents/${id}`, { headers: { Authorization: tok } });
   }
 
-  deleteAll() {
-    return http.delete(`/documents`);
+  deleteAll(tok) {
+    return http.delete(`/documents`, { headers: { Authorization: tok } });
   }
 
-  findByUserGroup(group) {
-    return http.get(`/documents/group/${group}`);
+  findByUserGroup(group, tok) {
+    return http.get(`/documents/group/${group}`, { headers: { Authorization: tok } });
   }
 }
 

@@ -1,32 +1,32 @@
 import http from "../http-common";
 
 class RoleDataService {
-  getAll() {
-    return http.get("/roles");
+  getAll(tok) {
+    return http.get("/roles", { headers: { Authorization: tok } });
   }
 
-  get(id) {
-    return http.get(`/roles/${id}`);
+  get(id, tok) {
+    return http.get(`/roles/${id}`, { headers: { Authorization: tok } });
   }
 
-  create(data) {
-    return http.post("/roles", data);
+  create(data, tok) {
+    return http.post("/roles", data, { headers: { Authorization: tok } });
   }
 
-  update(id, data) {
-    return http.put(`/roles/${id}`, data);
+  update(id, data, tok) {
+    return http.put(`/roles/${id}`, data, { headers: { Authorization: tok } });
   }
 
-  delete(id) {
-    return http.delete(`/roles/${id}`);
+  delete(id, tok) {
+    return http.delete(`/roles/${id}`, { headers: { Authorization: tok } });
   }
 
-  deleteAll() {
-    return http.delete(`/roles`);
+  deleteAll(tok) {
+    return http.delete(`/roles`, { headers: { Authorization: tok } });
   }
 
-  findByRoleName(rolename) {
-    return http.get(`/roles?rolename=${rolename}`);
+  findByRoleName(rolename, tok) {
+    return http.get(`/roles/rolename/${rolename}`, { headers: { Authorization: tok } });
   }
 }
 

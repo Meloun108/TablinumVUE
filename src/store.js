@@ -18,6 +18,7 @@ export default new Vuex.Store({
         state.status = 'success'
         state.token = token
         state.user = user
+        Vue.axios.defaults.headers.common['Authorization'] = (token ? ('JWT ' + token) : '');
       },
       auth_error(state){
         state.status = 'error'
@@ -81,6 +82,8 @@ export default new Vuex.Store({
           localStorage.removeItem('token')
           localStorage.removeItem('user')
           delete axios.defaults.headers.common['Authorization']
+          console.log("localstorage");
+          console.log(localStorage);
           resolve()
         })
     }
@@ -88,5 +91,6 @@ export default new Vuex.Store({
   getters : {
     isLoggedIn: state => !!state.token,
     authStatus: state => state.status,
+    getTok: (state) => () => state.token
   }
 })
