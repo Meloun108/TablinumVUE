@@ -17,6 +17,22 @@ class DocumentDataService {
     return http.put(`/documents/${id}`, data, { headers: { Authorization: tok } });
   }
 
+  updateLocation(id, data, tok) {
+    return http.put(`/documents/upd-location/${id}`, data, { headers: { Authorization: tok } });
+  }
+
+  addNewLocation(id, data, tok) {
+    return http.put(`/documents/new-location/${id}`, data, { headers: { Authorization: tok } });
+  }
+
+  updateNumberLocation(id, data, tok) {
+    return http.put(`/documents/upd-number-location/${id}`, data, { headers: { Authorization: tok } });
+  }
+
+  deleteLocation(id, data, tok) {
+    return http.put(`/documents/del-location/${id}`, data, { headers: { Authorization: tok } });
+  }
+
   delete(id, tok) {
     return http.delete(`/documents/${id}`, { headers: { Authorization: tok } });
   }

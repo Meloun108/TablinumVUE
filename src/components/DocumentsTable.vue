@@ -553,7 +553,7 @@
                   <v-card-title>
                     <span class="headline">Движение документа</span>
                   </v-card-title>
-                  <v-row align="center" class="list px-3 mx-auto">
+                  
                     <v-col cols="12" sm="8">
                       <v-text-field
                         v-model="searchLocation"
@@ -564,25 +564,13 @@
                         autocomplete="off"
                       ></v-text-field>
                     </v-col>
-                  </v-row>
+                  
                   <v-col cols="12" sm="12">
-                    <v-data-table
-                      :headers="headersLocations"
-                      :items="docgroupinfo"
-                      :items-per-page="5"
-                      :search="searchLocation"
-                      class="elevation-1"
-                      :loading="loadProgress"
-                      loading-text="Загрузка... Ожидайте"
-                      :sort-by="['all']"
-                      multi-sort
-                    >
-                      <template v-slot: top>
-                        <v-toolbar flat>
+                    <v-toolbar flat>
                           <v-toolbar-title>Местоположение</v-toolbar-title>
                           <v-divider class="mx-4" inset vertical></v-divider>
                           <v-spacer></v-spacer>
-                          <v-dialog v-model="dialogNewLoc" max-width="1500px">
+                          <v-dialog v-model="dialogNewLoc" max-width="500px">
                             <template v-slot:activator="{ on, attrs }">
                               <v-btn
                                 color="primary"
@@ -596,23 +584,23 @@
                             </template>
                             <v-card>
                               <v-card-title>
-                                <span class="headline">Новый номер</span>
+                                <span class="headline">Отправить</span>
                               </v-card-title>
                               <v-card-text>
                                 <v-container>
                                   <v-row>
-                                    <v-col cols="12" sm="6" md="4">
-                                      <v-text-field
-                                        v-model="newdocnumberloc"
-                                        :rules="[
-                                          (v) => !!v || 'Поле не заполнено!',
-                                        ]"
-                                        v-if="dialogNewLoc"
-                                        label="Номер *"
-                                        autocomplete="off"
+                                    <v-col cols="12" sm="6">
+                                      <v-autocomplete
+                                        v-model="newdocloc"
+                                        :items="groups"
+                                        :filter="customFilterGroup"
+                                        color="white"
+                                        item-text="dept"
+                                        item-value="id"
+                                        label="Куда"
                                         autofocus
                                         required
-                                      ></v-text-field>
+                                      ></v-autocomplete>
                                     </v-col>
                                   </v-row>
                                 </v-container>
@@ -622,7 +610,7 @@
                                 <v-btn
                                   color="blue darken-1"
                                   text
-                                  @click="close"
+                                  @click="closeNewLoc"
                                 >
                                   Отменить
                                 </v-btn>
@@ -637,7 +625,18 @@
                             </v-card>
                           </v-dialog>
                         </v-toolbar>
-                      </template>
+                    <v-data-table
+                      :headers="headersLocations"
+                      :items="docgroupinfo"
+                      :items-per-page="5"
+                      :search="searchLocation"
+                      class="elevation-1"
+                      :loading="loadProgress"
+                      loading-text="Загрузка... Ожидайте"
+                      :sort-by="['all']"
+                      multi-sort
+                    >
+                      
                       <template v-slot:[`item.location`]="{ item }">
                         <v-simple-checkbox
                           v-model="item.location"
@@ -656,7 +655,7 @@
                   </v-col>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="editLocDialog" max-width="1500px">
+              <v-dialog v-model="editLocDialog" max-width="500px">
                 <v-card>
                   <v-card-title>
                     <span class="headline"
@@ -666,13 +665,14 @@
                   <v-card-text>
                     <v-container>
                       <v-row>
-                        <v-col cols="12" sm="6" md="4">
+                        <v-col cols="12" sm="6">
                           <v-text-field
-                            v-model="docgroupinfo.numbergroup"
+                            v-model="numberdocloc"
                             :rules="[(v) => !!v || 'Поле не заполнено!']"
                             label="Номер *"
                             autocomplete="off"
                             required
+                            autofocus
                           ></v-text-field>
                         </v-col>
                       </v-row>
@@ -680,16 +680,16 @@
                   </v-card-text>
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeEdit">
+                    <v-btn color="blue darken-1" text @click="closeEditLoc">
                       Отменить
                     </v-btn>
-                    <v-btn color="blue darken-1" text @click="editLocation">
+                    <v-btn color="blue darken-1" text @click="saveNewNumberLocation">
                       Сохранить
                     </v-btn>
                   </v-card-actions>
                 </v-card>
               </v-dialog>
-              <v-dialog v-model="dialogLocDelete" max-width="600px">
+              <v-dialog v-model="dialogLocDelete" max-width="650px">
                 <v-card>
                   <v-card-title class="headline"
                     >Вы уверены, что хотите удалить
@@ -697,7 +697,7 @@
                   >
                   <v-card-actions>
                     <v-spacer></v-spacer>
-                    <v-btn color="blue darken-1" text @click="closeDelete"
+                    <v-btn color="blue darken-1" text @click="closeDeleteLoc"
                       >Отменить</v-btn
                     >
                     <v-btn color="blue darken-1" text @click="deleteLocConfirm"
@@ -862,7 +862,12 @@ export default {
     executors: [],
     usergroup: "",
     docgroupinfo: [],
-    newdocnumberloc: "",
+    locinfo: [],
+    newdocloc: {
+        id: null,
+        dept: "",
+      },
+    numberdocloc: "",
     headers: [
       {
         text: "Подп. №",
@@ -898,6 +903,7 @@ export default {
       { text: "Действия", value: "actions", sortable: false },
     ],
     editedIndex: -1,
+    editedIndexLocation: -1,
     deleteId: "",
     editedItem: {
       number: "",
@@ -961,6 +967,9 @@ export default {
     dialogLocation(val) {
       val || this.closeDelete();
     },
+    editLocDialog(val) {
+      val || this.closeDelete();
+    },
     numberdate() {
       this.newnumberdateform = this.formatDate(this.numberdate);
     },
@@ -1014,6 +1023,12 @@ export default {
       return textOne.indexOf(searchText) > -1;
     },
 
+    customFilterGroup(item, queryText) {
+      const textOne = item.dept.toLowerCase();
+      const searchText = queryText.toLowerCase();
+      return textOne.indexOf(searchText) > -1;
+    },
+
     customFilterUser(item, queryText) {
       const textOne = item.name.toLowerCase();
       const searchText = queryText.toLowerCase();
@@ -1021,7 +1036,6 @@ export default {
     },
 
     saveDocument() {
-      console.log(this.document);
       if (this.document.number === "" || !this.newnumberdateform) {
         this.$toastr.e("", "Не заполнены обязательные поля!");
       } else {
@@ -1063,7 +1077,6 @@ export default {
         DocumentDataService.create(data, this.$store.state.token)
           .then((response) => {
             this.document.id = response.data.Id;
-            console.log(response.data);
             this.submitted = true;
           })
           .catch((e) => {
@@ -1083,23 +1096,34 @@ export default {
     },
 
     saveNewLocation() {
-      console.log(this.newdocnumberloc);
-      if (this.newdocnumberloc === "") {
+      if (this.newdocloc === "") {
         this.$toastr.e("", "Не заполнены обязательные поля!");
       } else {
+        var locID = [];
         var data = {
-          group: this.usergroup,
+          Group: this.newdocloc,
+          NumberGroup: "",
+          NumberGroupDate: new Date(),
+          Location: true,
+        };
+        var datapush = {
+          group: this.getGroup(this.newdocloc),
           numbergroup: "",
-          numbergroupdate: new Date(),
+          numbergroupdate: this.parseIncomingDate(data.NumberGroupDate.toISOString().substring(0, data.NumberGroupDate.toISOString().indexOf("T"))),
           location: true,
         };
-        console.log("docgroupinfo");
-        console.log(this.docgroupinfo);
-        this.docgroupinfo.push(data);
-        /*DocumentDataService.create(data, this.$store.state.token)
+        for (let info of this.docgroupinfo) {
+          info.location = false;
+        }
+        this.docgroupinfo.push(datapush);
+        for (let info of this.currentDocument.groupinfo) {
+          info.Location = false;
+          locID.push(info.Group);
+        }
+        this.currentDocument.groupinfo.push(data);
+        DocumentDataService.updateLocation(this.currentDocument.id, locID, this.$store.state.token)
           .then((response) => {
             this.document.id = response.data.Id;
-            console.log(response.data);
             this.submitted = true;
           })
           .catch((e) => {
@@ -1112,10 +1136,64 @@ export default {
           Object.assign(this.documents[this.editedIndex], this.editedItem);
         } else {
           this.documents.push(this.document);
-        }*/
-        console.log(this.docgroupinfo);
+        }
+        DocumentDataService.addNewLocation(this.currentDocument.id, data, this.$store.state.token)
+          .then((response) => {
+            this.document.id = response.data.Id;
+            this.submitted = true;
+          })
+          .catch((e) => {
+            console.log(e);
+            this.$store.dispatch("logout").then(() => {
+              this.$router.push("/login");
+            });
+          });
+        if (this.editedIndex > -1) {
+          Object.assign(this.documents[this.editedIndex], this.editedItem);
+        } else {
+          this.documents.push(this.document);
+        }
         this.refreshList();
-        this.close();
+        this.closeNewLoc();
+      }
+    },
+
+    saveNewNumberLocation() {
+      if (this.numberdocloc === "") {
+        this.$toastr.e("", "Не заполнены обязательные поля!");
+      } else {
+        //var data = {
+        //  Group: this.getGroupID(this.locinfo.group),
+        //  NumberGroup: this.numberdocloc,
+        //  NumberGroupDate: this.parseDate(this.locinfo.numbergroupdate),
+        //  Location: this.locinfo.location,
+        //};
+        for (let info of this.docgroupinfo) {
+          if (info.group === this.locinfo.group)
+            info.numbergroup = this.numberdocloc;
+        }
+        for (let info of this.currentDocument.groupinfo) {
+          if (info.Group === this.getGroupID(this.locinfo.group))
+            info.NumberGroup = this.numberdocloc;
+        }
+        DocumentDataService.updateNumberLocation(this.currentDocument.id, this.currentDocument.groupinfo, this.$store.state.token)
+          .then((response) => {
+            this.document.id = response.data.Id;
+            this.submitted = true;
+          })
+          .catch((e) => {
+            console.log(e);
+            this.$store.dispatch("logout").then(() => {
+              this.$router.push("/login");
+            });
+          });
+        if (this.editedIndex > -1) {
+          Object.assign(this.documents[this.editedIndex], this.editedItem);
+        } else {
+          this.documents.push(this.document);
+        }
+        this.refreshList();
+        this.closeEditLoc();
       }
     },
 
@@ -1148,9 +1226,7 @@ export default {
     retrieveDocuments() {
       GroupDataService.getAll(this.$store.state.token)
         .then((response) => {
-          console.log(response);
           this.groups = response.data.map(this.getSelectGroup);
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -1160,9 +1236,7 @@ export default {
         });
       InitioDataService.getAll(this.$store.state.token)
         .then((response) => {
-          console.log(response);
           this.initios = response.data.map(this.getSelectInitio);
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -1172,9 +1246,7 @@ export default {
         });
       UserDataService.getAll(this.$store.state.token)
         .then((response) => {
-          console.log(response);
           this.executors = response.data.map(this.getSelectUser);
-          console.log(response.data);
         })
         .catch((e) => {
           console.log(e);
@@ -1190,9 +1262,7 @@ export default {
             this.$store.state.token
           )
             .then((response) => {
-              console.log(response);
               this.documents = response.data.map(this.getDisplayDocument);
-              console.log(response.data);
             })
             .catch((e) => {
               console.log(e);
@@ -1210,7 +1280,6 @@ export default {
     },
 
     getSelectGroup(group) {
-      console.log(group);
       return {
         id: group.Id,
         dept: group.Dept,
@@ -1218,7 +1287,6 @@ export default {
     },
 
     getSelectInitio(initio) {
-      console.log(initio);
       return {
         id: initio.Id,
         initio: initio.Initio,
@@ -1226,7 +1294,6 @@ export default {
     },
 
     getSelectUser(user) {
-      console.log(user);
       return {
         id: user.Id,
         name: user.Name,
@@ -1240,7 +1307,7 @@ export default {
     removeAllDocuments() {
       DocumentDataService.deleteAll(this.$store.state.token)
         .then((response) => {
-          console.log(response.data);
+          console.log(response);
           this.refreshList();
         })
         .catch((e) => {
@@ -1304,6 +1371,7 @@ export default {
           this.$store.state.token
         )
           .then((response) => {
+            console.log(response);
             this.currentDocument.view = data.view;
             this.currentDocument.speed = data.speed;
             this.currentDocument.from = this.getFrom(data.from);
@@ -1317,7 +1385,6 @@ export default {
               this.documents.push(this.currentDocument);
             }
             this.closeEdit();
-            console.log(response.data);
           })
           .catch((e) => {
             console.log(e);
@@ -1422,17 +1489,10 @@ export default {
       this.editDialog = true;
     },
 
-    editLocation(location) {
-      console.log(location);
-      /*this.editedIndex = this.documents.indexOf(item);
-      this.currentDocument = Object.assign({}, item);
-      let ini = this.initios.find((i) => i.initio == item.from);
-      let indI = this.initios.indexOf(ini);
-      this.currentDocument.from = this.initios[indI];
-      let exec = this.executors.find((e) => e.name == item.executor);
-      let indE = this.executors.indexOf(exec);
-      this.currentDocument.executor = this.executors[indE];
-      this.docgroupinfo = item.groupinfo;*/
+    editLocation(item) {
+      this.editedIndexLocation = this.docgroupinfo.indexOf(item);
+      this.locinfo = item;
+      this.numberdocloc = item.numbergroup;
       this.editLocDialog = true;
     },
 
@@ -1455,10 +1515,8 @@ export default {
       this.dialogDelete = true;
     },
 
-    deleteLocation(location) {
-      console.log(location);
-      //this.editedIndex = this.documents.indexOf(item);
-      //this.deleteId = item.id;
+    deleteLocation(item) {
+      this.editedIndexLocation = this.docgroupinfo.indexOf(item);
       this.dialogLocDelete = true;
     },
 
@@ -1478,8 +1536,9 @@ export default {
     },
 
     deleteLocConfirm() {
-      /*this.docgroupinfo.splice(this.editedIndex, 1);
-      DocumentDataService.delete(this.deleteId, this.$store.state.token)
+      this.docgroupinfo.splice(this.editedIndexLocation, 1);
+      this.currentDocument.groupinfo.splice(this.editedIndexLocation, 1);
+      DocumentDataService.deleteLocation(this.currentDocument.id, this.currentDocument.groupinfo, this.$store.state.token)
         .then(() => {
           this.refreshList();
         })
@@ -1488,8 +1547,26 @@ export default {
           this.$store.dispatch("logout").then(() => {
             this.$router.push("/login");
           });
-        });*/
-      this.closeDelete();
+        });
+        /*
+        DocumentDataService.updateNumberLocation(this.currentDocument.id, this.currentDocument.groupinfo, this.$store.state.token)
+          .then((response) => {
+            this.document.id = response.data.Id;
+            this.submitted = true;
+          })
+          .catch((e) => {
+            console.log(e);
+            this.$store.dispatch("logout").then(() => {
+              this.$router.push("/login");
+            });
+          });
+        if (this.editedIndex > -1) {
+          Object.assign(this.documents[this.editedIndex], this.editedItem);
+        } else {
+          this.documents.push(this.document);
+        }
+        */
+      this.closeDeleteLoc();
     },
 
     close() {
@@ -1516,6 +1593,30 @@ export default {
       });
     },
 
+    closeNewLoc() {
+      this.dialogNewLoc = false;
+      this.$nextTick(() => {
+        this.document = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeEditLoc() {
+      this.editLocDialog = false;
+      this.$nextTick(() => {
+        this.document = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
+    closeDeleteLoc() {
+      this.dialogLocDelete = false;
+      this.$nextTick(() => {
+        this.document = Object.assign({}, this.defaultItem);
+        this.editedIndex = -1;
+      });
+    },
+
     getFrom(inn) {
       let ini = this.initios.find((item) => item.id == inn);
       return ini.initio;
@@ -1527,11 +1628,13 @@ export default {
     },
 
     getGroup(group) {
-      console.log("dept");
-      console.log(group);
       let gr = this.groups.find((item) => item.id == group);
-      console.log(gr);
       return gr.dept;
+    },
+
+    getGroupID(group) {
+      let gr = this.groups.find((item) => item.dept == group);
+      return gr.id;
     },
 
     parseIncomingDate(input) {
