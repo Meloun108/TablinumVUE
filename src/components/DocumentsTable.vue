@@ -579,7 +579,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                               >
-                                <v-icon>mdi-email-plus-outline</v-icon>
+                                <v-icon>mdi-email-send-outline</v-icon>
                               </v-btn>
                             </template>
                             <v-card>
@@ -1066,13 +1066,23 @@ export default {
             ? undefined
             : this.parseDate(this.newexecutiondateform),
           status: this.document.status,
-          view: this.document.view.state,
-          speed: this.document.speed.state,
+          view: this.document.view.state === undefined
+              ? this.document.view
+              : this.document.view.state,
+          speed: this.document.speed.state === undefined
+              ? this.document.speed
+              : this.document.speed.state,
           control: this.document.control,
           comment: this.document.comment,
           created: new Date(),
           updated: new Date(),
         };
+
+        this.newnumberdateform = "";
+        this.newnumbercenterdateform = "";
+        this.newnumberdepartmentdateform = "";
+        this.newexecutiondateform = "";
+        console.log(data);
 
         DocumentDataService.create(data, this.$store.state.token)
           .then((response) => {

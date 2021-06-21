@@ -169,7 +169,7 @@ export default {
     },
 
     retrieveData() {
-      GroupDataService.getAll()
+      GroupDataService.getAll(this.$store.state.token)
         .then((response) => {
           console.log(response);
           this.groups = response.data.map(this.getSelectGroup);
@@ -178,7 +178,7 @@ export default {
         .catch((e) => {
           console.log(e);
         });
-        RoleDataService.getAll()
+        RoleDataService.getAll(this.$store.state.token)
         .then((response) => {
           console.log(response);
           this.roles = response.data.map(this.getSelectRole);
