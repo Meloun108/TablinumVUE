@@ -20,7 +20,7 @@
       </v-btn>-->
 
       <v-btn icon @click="logout">
-        <v-icon>mdi-export</v-icon>
+        <v-icon>{{ mdiExport }}</v-icon>
       </v-btn>
     </v-toolbar>
     <v-navigation-drawer
@@ -46,30 +46,30 @@
         >
           <v-list-item>
             <v-btn icon>
-                <v-icon>mdi-email-newsletter</v-icon>
+                <v-icon>{{ mdiEmailNewsletter }}</v-icon>
             </v-btn>
             <v-list-item-title @click="$router.push('/documents')">Письма</v-list-item-title>
           </v-list-item>
 
           <v-list-item>
             <v-btn icon>
-                <v-icon>mdi-chart-bar</v-icon>
+                <v-icon>{{ mdiChartBar }}</v-icon>
             </v-btn>
-            <v-list-item-title>Отчеты</v-list-item-title>
+            <v-list-item-title @click="$router.push('/reports')">Отчеты</v-list-item-title>
           </v-list-item>
 
           <v-list-item>
             <v-btn icon>
-                <v-icon>mdi-comment-text</v-icon>
+                <v-icon>{{ mdiCommentText }}</v-icon>
             </v-btn>
-            <v-list-item-title>Чат</v-list-item-title>
+            <tech-work-info texxt="Чат" />
           </v-list-item>
 
           <v-list-item>
             <v-btn icon>
-                <v-icon>mdi-android-studio</v-icon>
+                <v-icon>{{ mdiAndroidStudio }}</v-icon>
             </v-btn>
-            <v-list-item-title>Настройки</v-list-item-title>
+            <v-list-item-title @click="$router.push('/settings')">Настройки</v-list-item-title>
           </v-list-item>
         </v-list-item-group>
       </v-list>
@@ -78,8 +78,13 @@
 </template>
 
 <script>
+import { mdiExport, mdiEmailNewsletter, mdiChartBar, mdiCommentText, mdiAndroidStudio } from '@mdi/js'
+import TechWorkInfo from './TechWorkInfo.vue'
+
   export default {
+    components: { TechWorkInfo },
     data: () => ({
+      mdiExport, mdiEmailNewsletter, mdiChartBar, mdiCommentText, mdiAndroidStudio,
       drawer: false,
       group: null,
     }),

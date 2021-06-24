@@ -26,7 +26,7 @@
           margin-left: auto !important;
           margin-right: auto !important;
         "
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show1 ? mdiEye : mdiEyeOff"
         :type="show1 ? 'text' : 'password'"
         counter
         @click:append="show1 = !show1"
@@ -42,7 +42,7 @@
           margin-left: auto !important;
           margin-right: auto !important;
         "
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show1 ? mdiEye : mdiEyeOff"
         :type="show2 ? 'text' : 'password'"
         counter
         @click:append="show2 = !show2"
@@ -108,9 +108,13 @@
 <script>
 import GroupDataService from "../services/GroupDataService"
 import RoleDataService from "../services/RoleDataService"
+import { mdiEye, mdiEyeOff } from '@mdi/js'
+
 export default {
   data() {
     return {
+      mdiEye,
+      mdiEyeOff,
       group: {
         id: null,
         dept: "",

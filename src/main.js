@@ -7,11 +7,15 @@ import router from './router'
 import Vuex from 'vuex'
 import store from './store'
 import VueToastr from "vue-toastr";
+import '@mdi/font/css/materialdesignicons.css'
 
 
 Vue.use(VueAxios, axios)
-Vue.use(VueToastr);
+Vue.use(VueToastr)
 Vue.use(Vuex)
+Vue.use(vuetify, {
+  iconfont: 'mdi' // 'md' || 'mdi' || 'fa' || 'fa4'
+})
 Vue.config.productionTip = false
 //Vue.prototype.$http = axios;
 const token = localStorage.getItem('token')

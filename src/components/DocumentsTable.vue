@@ -3,7 +3,7 @@
     <v-col cols="12" md="8">
       <v-text-field
         v-model="search"
-        append-icon="mdi-magnify"
+        :append-icon="mdiMagnify"
         single-line
         hide-details
         label="Поиск"
@@ -37,7 +37,7 @@
                     v-bind="attrs"
                     v-on="on"
                   >
-                    <v-icon>mdi-email-plus-outline</v-icon>
+                    <v-icon>{{ mdiEmailPlusOutline }}</v-icon>
                   </v-btn>
                 </template>
                 <v-card>
@@ -70,7 +70,7 @@
                                 label="от *"
                                 v-model="newnumberdateform"
                                 :rules="[(v) => !!v || 'Поле не заполнено!']"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -107,7 +107,7 @@
                               <v-text-field
                                 label="от"
                                 v-model="newnumbercenterdateform"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -146,7 +146,7 @@
                               <v-text-field
                                 label="от"
                                 v-model="newnumberdepartmentdateform"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -204,7 +204,7 @@
                                     <v-text-field
                                       label="до"
                                       v-model="newexecutiondateform"
-                                      prepend-icon="mdi-calendar"
+                                      :prepend-icon="mdiCalendar"
                                       autocomplete="off"
                                       v-bind="attrs"
                                       @blur="
@@ -314,7 +314,7 @@
                                 label="от *"
                                 v-model="currentDocument.numberdate"
                                 :rules="[(v) => !!v || 'Поле не заполнено!']"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -353,7 +353,7 @@
                               <v-text-field
                                 label="от"
                                 v-model="currentDocument.numbercenterdate"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -392,7 +392,7 @@
                               <v-text-field
                                 label="от"
                                 v-model="currentDocument.numberdepartmentdate"
-                                prepend-icon="mdi-calendar"
+                                :prepend-icon="mdiCalendar"
                                 autocomplete="off"
                                 v-bind="attrs"
                                 @blur="
@@ -450,7 +450,7 @@
                                     <v-text-field
                                       label="до"
                                       v-model="currentDocument.executiondate"
-                                      prepend-icon="mdi-calendar"
+                                      :prepend-icon="mdiCalendar"
                                       autocomplete="off"
                                       v-bind="attrs"
                                       @blur="
@@ -557,7 +557,7 @@
                     <v-col cols="12" sm="8">
                       <v-text-field
                         v-model="searchLocation"
-                        append-icon="mdi-magnify"
+                        :append-icon="mdiMagnify"
                         single-line
                         hide-details
                         label="Поиск"
@@ -579,7 +579,7 @@
                                 v-bind="attrs"
                                 v-on="on"
                               >
-                                <v-icon>mdi-email-send-outline</v-icon>
+                                <v-icon>{{ mdiEmailSendOutline }}</v-icon>
                               </v-btn>
                             </template>
                             <v-card>
@@ -645,10 +645,10 @@
                       </template>
                       <template v-slot:[`item.actions`]="{ item }">
                         <v-icon small class="mr-2" @click="editLocation(item)"
-                          >mdi-pencil</v-icon
+                          >{{ mdiPencil }}</v-icon
                         >
                         <v-icon small @click="deleteLocation(item)"
-                          >mdi-delete</v-icon
+                          >{{ mdiDelete }}</v-icon
                         >
                       </template>
                     </v-data-table>
@@ -723,12 +723,12 @@
           </template>
           <template v-slot:[`item.actions`]="{ item }">
             <v-icon small class="mr-2" @click="changeLocation(item)"
-              >mdi-compass-outline</v-icon
+              >{{ mdiCompassOutline }}</v-icon
             >
             <v-icon small class="mr-2" @click="editItem(item)"
-              >mdi-pencil</v-icon
+              >{{ mdiPencil }}</v-icon
             >
-            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>
+            <v-icon small @click="deleteItem(item)">{{ mdiDelete }}</v-icon>
           </template>
         </v-data-table>
       </v-card>
@@ -742,9 +742,17 @@ import InitioDataService from "../services/InitioDataService";
 import UserDataService from "../services/UserDataService";
 import GroupDataService from "../services/GroupDataService";
 import { mapState } from "vuex";
+import { mdiEmailPlusOutline, mdiMagnify, mdiCalendar, mdiEmailSendOutline, mdiPencil, mdiDelete, mdiCompassOutline } from '@mdi/js'
 
 export default {
   data: () => ({
+    mdiEmailPlusOutline,
+    mdiMagnify,
+    mdiCalendar,
+    mdiEmailSendOutline,
+    mdiPencil,
+    mdiDelete,
+    mdiCompassOutline,
     itemsSpeedDoc: [
       { state: "Не срочный" }, 
       { state: "Срочный" }
@@ -1405,7 +1413,7 @@ export default {
       }
     },
 
-    deleteDocument(id) {
+    /*deleteDocument(id) {
       DocumentDataService.delete(id, this.$store.state.token)
         .then(() => {
           this.refreshList();
@@ -1416,7 +1424,7 @@ export default {
             this.$router.push("/login");
           });
         });
-    },
+    },*/
 
     getDisplayDocument(document) {
       return {
@@ -1629,22 +1637,34 @@ export default {
 
     getFrom(inn) {
       let ini = this.initios.find((item) => item.id == inn);
-      return ini.initio;
+      if (ini !== undefined)
+        return ini.initio;
+      else
+        return "Было удалено";
     },
 
     getExec(exec) {
       let ex = this.executors.find((item) => item.id == exec);
-      return ex.name;
+      if (ex !== undefined)
+        return ex.name;
+      else
+        return "Было удалено";
     },
 
     getGroup(group) {
       let gr = this.groups.find((item) => item.id == group);
-      return gr.dept;
+      if (gr !== undefined)
+        return gr.dept;
+      else
+        return "Было удалено";
     },
 
     getGroupID(group) {
       let gr = this.groups.find((item) => item.dept == group);
-      return gr.id;
+      if (gr !== undefined)
+        return gr.id;
+      else
+        return "Было удалено";
     },
 
     parseIncomingDate(input) {

@@ -3,6 +3,8 @@ import Router from "vue-router";
 import store from './store.js'
 import Login from './components/Login.vue'
 import Register from './components/Register.vue'
+import Settings from './components/Settings.vue'
+import Reports from './components/Reports.vue'
 
 Vue.use(Router);
 
@@ -28,6 +30,16 @@ let router = new Router({
       name: 'register',
       component: Register
     },
+    {
+      path: '/settings',
+      name: 'settings',
+      component: Settings
+    },
+    {
+      path: '/reports',
+      name: 'reports',
+      component: Reports
+    }
   ]
 })
 

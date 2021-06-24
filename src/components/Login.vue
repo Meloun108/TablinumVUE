@@ -23,7 +23,7 @@
           margin-left: auto !important;
           margin-right: auto !important;
         "
-        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
+        :append-icon="show1 ? mdiEye : mdiEyeOff"
         :type="show1 ? 'text' : 'password'"
         counter
         @click:append="show1 = !show1"
@@ -43,9 +43,13 @@
 </template>
 
 <script>
+import { mdiEye, mdiEyeOff } from '@mdi/js'
+
 export default {
   data() {
     return {
+      mdiEye,
+      mdiEyeOff,
       username: "",
       password: "",
       show1: false,
