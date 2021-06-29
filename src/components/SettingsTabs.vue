@@ -52,7 +52,6 @@ import GroupSettings from './GroupSettings.vue'
       return {
         mdiAccountTie, mdiShieldHome,
         tab: null,
-        text: 'This tab-1',
       }
     },
   }

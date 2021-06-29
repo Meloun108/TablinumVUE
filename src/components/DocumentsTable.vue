@@ -1275,6 +1275,8 @@ export default {
       UserDataService.findByUser(localStorage.user, this.$store.state.token)
         .then((response) => {
           this.usergroup = response.data.Group;
+          localStorage.setItem('group', this.getGroup(this.usergroup));
+          localStorage.setItem("fullname", response.data.Name);
           DocumentDataService.findByUserGroup(
             this.usergroup,
             this.$store.state.token
